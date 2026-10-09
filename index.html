@@ -1,0 +1,1729 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>eFootball League | Champion</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050b15;
+      --panel: #0b1423;
+      --gold: #f7c957;
+      --text: #f4f6fc;
+      --muted: #9ba8bd;
+      --border: rgba(255, 255, 255, .1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      min-height: 66px;
+      padding: 0 4%;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      background: #050b15;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 4px solid var(--gold);
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-radius: 50%;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    .brand h1 {
+      font-family: Orbitron, sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .brand h1 span {
+      display: block;
+      color: var(--gold);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      height: 66px;
+      gap: 4px;
+    }
+
+    .nav-btn {
+      height: 100%;
+      padding: 0 12px;
+      background: transparent;
+      color: #c0c8d8;
+      border: none;
+      font-size: 12px;
+      position: relative;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      color: var(--gold);
+    }
+
+    .nav-btn.active::after {
+      content: "";
+      height: 3px;
+      position: absolute;
+      bottom: 0;
+      left: 12px;
+      right: 12px;
+      background: var(--gold);
+    }
+
+    .admin-pill {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: #111c2d;
+      color: white;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .hero {
+      min-height: 570px;
+      padding: 40px 5% 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(3, 8, 17, .7), rgba(3, 8, 17, .15), rgba(3, 8, 17, .7)),
+        linear-gradient(0deg, #050b15 0%, transparent 35%),
+        url("https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=2000&q=85") center / cover;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse, rgba(247, 180, 43, .18), transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: auto;
+      position: relative;
+    }
+
+    .eyebrow {
+      margin-bottom: 8px;
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+    }
+
+    .crown {
+      margin-top: 8px;
+      color: var(--gold);
+      font-size: 42px;
+      text-shadow: 0 0 25px rgba(247, 201, 87, .4);
+    }
+
+    .champion-title {
+      color: var(--gold);
+      font-family: Orbitron, sans-serif;
+      font-size: clamp(34px, 6vw, 68px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      text-shadow: 0 0 25px rgba(247, 201, 87, .25);
+    }
+
+    .league-subtitle {
+      margin-top: 5px;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .season-number {
+      margin-top: 12px;
+      color: #e7d6a6;
+      font-size: 11px;
+      letter-spacing: 3px;
+    }
+
+    .winner-emblem {
+      width: 105px;
+      height: 105px;
+      margin: 22px auto 10px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      background: rgba(5, 11, 21, .9);
+      box-shadow: 0 0 35px rgba(247, 201, 87, .2);
+      font-size: 52px;
+    }
+
+    .winner-name {
+      font-family: Orbitron, sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .winner-motto {
+      margin-top: 7px;
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+
+    .podium {
+      display: flex;
+      justify-content: center;
+      align-items: end;
+      gap: 12px;
+      max-width: 690px;
+      margin: 27px auto 0;
+    }
+
+    .podium-card {
+      flex: 1;
+      min-width: 0;
+      padding: 14px 7px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(5, 12, 24, .92);
+    }
+
+    .podium-card.first {
+      padding-top: 19px;
+      border: 2px solid var(--gold);
+      background: linear-gradient(145deg, #59431b, #080e19);
+    }
+
+    .podium-rank {
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .podium-logo {
+      margin: 8px 0;
+      font-size: 28px;
+    }
+
+    .podium-card h3 {
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+
+    .podium-card p {
+      margin-top: 6px;
+      color: var(--gold);
+      font-size: 12px;
+    }
+
+    .gold-button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 25px;
+      border: 1px solid var(--gold);
+      border-radius: 30px;
+      background: #07101c;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .gold-button:hover {
+      background: var(--gold);
+      color: #111;
+    }
+
+    main {
+      max-width: 1500px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active-page {
+      display: block;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .left-column,
+    .right-column {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .card {
+      min-width: 0;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: linear-gradient(145deg, #0d1828, #07101d);
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-heading h2 {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .badge {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--muted);
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    th {
+      padding: 12px 9px;
+      background: #101c2e;
+      color: #9eacc2;
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    td {
+      padding: 12px 9px;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      text-align: center;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      text-align: left;
+    }
+
+    tbody tr:first-child {
+      background: rgba(247, 201, 87, .12);
+    }
+
+    .rank,
+    .points {
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    .club-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .club-emoji {
+      font-size: 18px;
+    }
+
+    .champion-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .champion-logo {
+      width: 78px;
+      height: 78px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(247, 201, 87, .4);
+      border-radius: 50%;
+      background: rgba(247, 201, 87, .06);
+      font-size: 42px;
+    }
+
+    .champion-profile h2 {
+      margin-bottom: 7px;
+      font-size: 18px;
+    }
+
+    .champion-profile strong {
+      color: var(--gold);
+      font-size: 11px;
+    }
+
+    .champion-profile p {
+      margin-top: 8px;
+      color: #aab6c9;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .stat {
+      padding: 15px 5px;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--gold);
+      font-size: 20px;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 5px;
+      color: #aeb9ca;
+      font-size: 10px;
+    }
+
+    .admin-notice {
+      margin: 15px 0;
+      padding: 13px;
+      border: 1px solid rgba(247, 201, 87, .35);
+      border-radius: 8px;
+      background: rgba(247, 201, 87, .07);
+      color: #ead8a7;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .end-button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(110deg, #e6b33c, #ffdf7b, #c99226);
+      color: #16110a;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .page-title {
+      margin-bottom: 20px;
+    }
+
+    .page-title h2 {
+      margin-bottom: 8px;
+      font-size: 26px;
+    }
+
+    .page-title p:last-child {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .form input,
+    .form select {
+      width: 100%;
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      outline: none;
+      background: #080f1c;
+      color: white;
+    }
+
+    .form input:focus,
+    .form select:focus {
+      border-color: var(--gold);
+    }
+
+    .action-button {
+      padding: 12px 16px;
+      border: 1px solid var(--gold);
+      border-radius: 7px;
+      background: var(--gold);
+      color: #111;
+      font-weight: 800;
+    }
+
+    .secondary-button {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #142034;
+      color: white;
+    }
+
+    .message {
+      min-height: 16px;
+      margin-top: 10px;
+      color: var(--gold);
+      font-size: 12px;
+    }
+
+    .fixture-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .fixture {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #101b2c;
+      text-align: center;
+    }
+
+    .fixture-team {
+      font-size: 12px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .fixture-score {
+      color: var(--gold);
+      font-family: Orbitron, sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .fixture-status {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .club-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .club-card {
+      padding: 18px 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #101b2c;
+      text-align: center;
+    }
+
+    .club-card .club-emoji {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 35px;
+    }
+
+    .club-card h3 {
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .club-card p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .empty {
+      padding: 28px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    footer {
+      padding: 25px 15px;
+      border-top: 1px solid var(--border);
+      color: #68768b;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px 16px;
+      }
+
+      nav {
+        order: 3;
+        flex-basis: 100%;
+        height: 42px;
+        overflow-x: auto;
+      }
+
+      .nav-btn {
+        flex-shrink: 0;
+      }
+
+      .admin-pill {
+        margin-left: auto;
+      }
+
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 14px;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .hero {
+        min-height: 485px;
+        padding: 30px 12px;
+      }
+
+      .winner-emblem {
+        width: 85px;
+        height: 85px;
+        font-size: 40px;
+      }
+
+      .winner-name {
+        font-size: 17px;
+      }
+
+      .podium {
+        gap: 5px;
+      }
+
+      .podium-card {
+        padding: 12px 4px;
+      }
+
+      .podium-card h3 {
+        font-size: 9px;
+      }
+
+      .podium-card p {
+        font-size: 10px;
+      }
+
+      .card {
+        padding: 14px;
+      }
+
+      .champion-profile {
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .champion-logo {
+        width: 58px;
+        height: 58px;
+        font-size: 30px;
+      }
+
+      .champion-profile h2 {
+        font-size: 15px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat:nth-child(2) {
+        border-right: none;
+      }
+
+      .stat:nth-child(-n+2) {
+        border-bottom: 1px solid var(--border);
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .club-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">E</div>
+
+      <h1>
+        eFOOTBALL
+        <span>LEAGUE</span>
+      </h1>
+    </div>
+
+    <nav>
+      <button class="nav-btn active" data-page="home">Home</button>
+      <button class="nav-btn" data-page="klasemen">Klasemen</button>
+      <button class="nav-btn" data-page="jadwal">Jadwal</button>
+      <button class="nav-btn" data-page="pertandingan">Pertandingan</button>
+      <button class="nav-btn" data-page="klub">Klub</button>
+      <button class="nav-btn" data-page="juara">Juara</button>
+    </nav>
+
+    <button class="admin-pill" id="adminNav">♙ Admin ▾</button>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <p class="eyebrow">THE ULTIMATE FOOTBALL COMPETITION</p>
+
+      <div class="crown">♛</div>
+
+      <h2 class="champion-title">CHAMPION</h2>
+
+      <p class="league-subtitle">eFOOTBALL LEAGUE</p>
+      <p class="season-number">SEASON 1</p>
+
+      <div class="winner-emblem" id="heroLogo">🏆</div>
+
+      <h2 class="winner-name" id="heroWinner">BELUM ADA JUARA</h2>
+
+      <p class="winner-motto">DREAM · PLAY · WIN</p>
+
+      <div class="podium" id="podium"></div>
+
+      <button class="gold-button" id="viewFinalTable">
+        🏆 Lihat Klasemen Final →
+      </button>
+    </div>
+  </section>
+
+  <main>
+
+    <section class="page active-page" id="home">
+      <div class="dashboard">
+
+        <div class="left-column">
+          <div class="card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">COMPETITION</p>
+                <h2>🏆 KLASEMEN LIGA</h2>
+              </div>
+
+              <span class="badge" id="tableStatus">SEDANG BERJALAN</span>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Klub</th>
+                    <th>Main</th>
+                    <th>Menang</th>
+                    <th>Seri</th>
+                    <th>Kalah</th>
+                    <th>Gol</th>
+                    <th>Selisih</th>
+                    <th>Poin</th>
+                  </tr>
+                </thead>
+
+                <tbody id="leagueTable"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">MATCH CENTER</p>
+                <h2>⚽ Pertandingan Terbaru</h2>
+              </div>
+
+              <button class="secondary-button" data-go="pertandingan">
+                Lihat Semua
+              </button>
+            </div>
+
+            <div class="fixture-list" id="recentMatches"></div>
+          </div>
+        </div>
+
+        <div class="right-column">
+          <div class="card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">SEASON CHAMPION</p>
+                <h2>Profil Tim Teratas</h2>
+              </div>
+            </div>
+
+            <div class="champion-profile">
+              <div class="champion-logo" id="profileLogo">🏆</div>
+
+              <div>
+                <h2 id="profileName">Belum ada juara</h2>
+                <strong id="profileSubtitle">Liga sedang berjalan</strong>
+
+                <p id="profileDescription">
+                  Tim dengan poin tertinggi akan menempati posisi teratas klasemen.
+                </p>
+              </div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat">
+                <strong id="statPoints">0</strong>
+                <span>Poin</span>
+              </div>
+
+              <div class="stat">
+                <strong id="statWins">0</strong>
+                <span>Menang</span>
+              </div>
+
+              <div class="stat">
+                <strong id="statDraws">0</strong>
+                <span>Seri</span>
+              </div>
+
+              <div class="stat">
+                <strong id="statLosses">0</strong>
+                <span>Kalah</span>
+              </div>
+            </div>
+
+            <div class="stats-grid" style="margin-top: 8px">
+              <div class="stat">
+                <strong id="statGF">0</strong>
+                <span>Gol Memasukkan</span>
+              </div>
+
+              <div class="stat">
+                <strong id="statGA">0</strong>
+                <span>Gol Kebobolan</span>
+              </div>
+
+              <div class="stat" style="grid-column: span 2">
+                <strong id="statGD">0</strong>
+                <span>Selisih Gol</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">CONTROL PANEL</p>
+                <h2>⚙️ Panel Admin</h2>
+              </div>
+            </div>
+
+            <p class="muted">
+              Kelola klub, masukkan hasil pertandingan, dan akhiri liga
+              untuk menetapkan klasemen final.
+            </p>
+
+            <div class="admin-notice">
+              ⚠️ Selesaikan seluruh pertandingan sebelum mengakhiri liga.
+              Klasemen final dihitung dari hasil yang tersimpan.
+            </div>
+
+            <button class="end-button" id="endLeagueButton">
+              🏆 Akhiri Liga →
+            </button>
+
+            <p class="message" id="endLeagueMessage"></p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="page" id="klasemen">
+      <div class="page-title">
+        <p class="eyebrow">LEAGUE TABLE</p>
+        <h2>Klasemen Liga</h2>
+        <p>Peringkat klub berdasarkan poin dan selisih gol.</p>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Klub</th>
+                <th>Main</th>
+                <th>Menang</th>
+                <th>Seri</th>
+                <th>Kalah</th>
+                <th>Gol</th>
+                <th>Kebobolan</th>
+                <th>Selisih</th>
+                <th>Poin</th>
+              </tr>
+            </thead>
+
+            <tbody id="fullLeagueTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="jadwal">
+      <div class="page-title">
+        <p class="eyebrow">FIXTURE LIST</p>
+        <h2>Jadwal Pertandingan</h2>
+        <p>Daftar pertandingan yang belum selesai.</p>
+      </div>
+
+      <div class="card">
+        <div class="fixture-list" id="fixtureList"></div>
+      </div>
+    </section>
+
+    <section class="page" id="pertandingan">
+      <div class="page-title">
+        <p class="eyebrow">MATCH RESULTS</p>
+        <h2>Hasil Pertandingan</h2>
+        <p>Daftar hasil pertandingan yang sudah disimpan.</p>
+      </div>
+
+      <div class="card">
+        <div class="fixture-list" id="resultList"></div>
+      </div>
+    </section>
+
+    <section class="page" id="klub">
+      <div class="page-title">
+        <p class="eyebrow">CLUB DIRECTORY</p>
+        <h2>Daftar Klub</h2>
+        <p>Klub yang terdaftar dalam kompetisi.</p>
+      </div>
+
+      <div class="card">
+        <div class="club-grid" id="clubList"></div>
+      </div>
+    </section>
+
+    <section class="page" id="juara">
+      <div class="page-title">
+        <p class="eyebrow">HALL OF CHAMPIONS</p>
+        <h2>Juara Liga</h2>
+        <p>Informasi juara berdasarkan klasemen final.</p>
+      </div>
+
+      <div class="card">
+        <div class="champion-profile">
+          <div class="champion-logo" id="finalLogo">🏆</div>
+
+          <div>
+            <h2 id="finalWinner">Belum ada juara</h2>
+            <strong id="finalSubtitle">SEASON 1</strong>
+            <p id="finalDescription">Liga belum diakhiri oleh admin.</p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Klub</th>
+                <th>Main</th>
+                <th>Menang</th>
+                <th>Seri</th>
+                <th>Kalah</th>
+                <th>Gol</th>
+                <th>Selisih</th>
+                <th>Poin</th>
+              </tr>
+            </thead>
+
+            <tbody id="finalLeagueTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="admin">
+      <div class="page-title">
+        <p class="eyebrow">ADMINISTRATION</p>
+        <h2>Panel Admin</h2>
+        <p>Kelola klub, jadwal, dan hasil pertandingan.</p>
+      </div>
+
+      <div class="content-grid">
+        <div class="card">
+          <div class="section-heading">
+            <h2>Tambah Klub</h2>
+          </div>
+
+          <form class="form" id="addClubForm">
+            <input id="clubNameInput" type="text" placeholder="Nama klub" required>
+            <input id="clubLogoInput" type="text" placeholder="Emoji logo, misalnya ⚽" maxlength="8">
+
+            <button class="action-button" type="submit">
+              + Tambah Klub
+            </button>
+          </form>
+
+          <p class="message" id="clubMessage"></p>
+        </div>
+
+        <div class="card">
+          <div class="section-heading">
+            <h2>Buat Jadwal</h2>
+          </div>
+
+          <p class="muted">
+            Sistem akan membuat jadwal round-robin otomatis.
+          </p>
+
+          <button class="action-button" id="generateSchedule" style="margin-top: 15px">
+            Generate Jadwal Otomatis
+          </button>
+
+          <p class="message" id="scheduleMessage"></p>
+        </div>
+
+        <div class="card">
+          <div class="section-heading">
+            <h2>Input Hasil</h2>
+          </div>
+
+          <form class="form" id="resultForm">
+            <select id="fixtureSelect" required>
+              <option value="">Pilih pertandingan</option>
+            </select>
+
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center">
+              <input id="homeScore" type="number" min="0" step="1" placeholder="0" required>
+              <strong>VS</strong>
+              <input id="awayScore" type="number" min="0" step="1" placeholder="0" required>
+            </div>
+
+            <button class="action-button" type="submit">
+              Simpan Hasil
+            </button>
+          </form>
+
+          <p class="message" id="resultMessage"></p>
+        </div>
+
+        <div class="card">
+          <div class="section-heading">
+            <h2>Pengaturan Liga</h2>
+          </div>
+
+          <p class="muted">
+            Akhiri liga setelah seluruh pertandingan selesai.
+          </p>
+
+          <button class="end-button" id="adminEndLeague" style="margin-top: 15px">
+            🏆 Akhiri Liga
+          </button>
+
+          <button class="secondary-button" id="resetLeague" style="margin-top: 10px; width: 100%">
+            Reset Liga
+          </button>
+
+          <p class="message" id="adminMessage"></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    eFOOTBALL LEAGUE © 2026 · DREAM · PLAY · WIN
+  </footer>
+
+  <script>
+    const STORAGE_KEY = "efootball_league_champion_v1";
+
+    const defaultData = {
+      teams: [],
+      fixtures: [],
+      finished: false
+    };
+
+    let league = loadData();
+
+    function loadData() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (saved) {
+          return {
+            ...defaultData,
+            ...JSON.parse(saved)
+          };
+        }
+      } catch (error) {
+        console.error("Gagal membaca data liga:", error);
+      }
+
+      return {
+        teams: [],
+        fixtures: [],
+        finished: false
+      };
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(league));
+    }
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[character]);
+    }
+
+    function getStandings() {
+      const standings = league.teams.map(team => ({
+        ...team,
+        played: 0,
+        wins: 0,
+        draws: 0,
+        losses: 0,
+        gf: 0,
+        ga: 0,
+        gd: 0,
+        points: 0
+      }));
+
+      league.fixtures
+        .filter(match => match.played)
+        .forEach(match => {
+          const home = standings.find(team => team.id === match.homeId);
+          const away = standings.find(team => team.id === match.awayId);
+
+          if (!home || !away) return;
+
+          home.played++;
+          away.played++;
+
+          home.gf += match.homeScore;
+          home.ga += match.awayScore;
+
+          away.gf += match.awayScore;
+          away.ga += match.homeScore;
+
+          if (match.homeScore > match.awayScore) {
+            home.wins++;
+            home.points += 3;
+            away.losses++;
+          } else if (match.homeScore < match.awayScore) {
+            away.wins++;
+            away.points += 3;
+            home.losses++;
+          } else {
+            home.draws++;
+            away.draws++;
+            home.points++;
+            away.points++;
+          }
+        });
+
+      standings.forEach(team => {
+        team.gd = team.gf - team.ga;
+      });
+
+      standings.sort((a, b) =>
+        b.points - a.points ||
+        b.gd - a.gd ||
+        b.gf - a.gf ||
+        a.name.localeCompare(b.name)
+      );
+
+      return standings;
+    }
+
+    function teamById(id) {
+      return league.teams.find(team => team.id === id);
+    }
+
+    function renderTable(targetId, limit = Infinity) {
+      const target = document.getElementById(targetId);
+      const standings = getStandings().slice(0, limit);
+
+      if (!standings.length) {
+        target.innerHTML = `
+          <tr>
+            <td colspan="10">Belum ada klub yang terdaftar.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      target.innerHTML = standings.map((team, index) => `
+        <tr>
+          <td class="rank">${index + 1}</td>
+
+          <td>
+            <div class="club-name">
+              <span class="club-emoji">${escapeHTML(team.logo)}</span>
+              ${escapeHTML(team.name)}
+            </div>
+          </td>
+
+          <td>${team.played}</td>
+          <td>${team.wins}</td>
+          <td>${team.draws}</td>
+          <td>${team.losses}</td>
+          <td>${team.gf}:${team.ga}</td>
+
+          ${targetId === "fullLeagueTable"
+            ? `<td>${team.ga}</td>`
+            : ""}
+
+          <td>${team.gd > 0 ? "+" : ""}${team.gd}</td>
+          <td class="points">${team.points}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderPodium() {
+      const standings = getStandings();
+      const podium = document.getElementById("podium");
+
+      if (!standings.length) {
+        podium.innerHTML = `
+          <div class="empty">
+            Tambahkan klub melalui panel admin.
+          </div>
+        `;
+        return;
+      }
+
+      const positions = [
+        { team: standings[1], rank: 2, className: "second" },
+        { team: standings[0], rank: 1, className: "first" },
+        { team: standings[2], rank: 3, className: "third" }
+      ].filter(item => item.team);
+
+      podium.innerHTML = positions.map(item => `
+        <div class="podium-card ${item.className}">
+          <span class="podium-rank">#${item.rank}</span>
+          <div class="podium-logo">${escapeHTML(item.team.logo)}</div>
+          <h3>${escapeHTML(item.team.name)}</h3>
+          <p>${item.team.points} Poin</p>
+        </div>
+      `).join("");
+    }
+
+    function renderChampion() {
+      const standings = getStandings();
+      const winner = standings[0];
+      const champion = league.finished && winner;
+
+      document.getElementById("heroLogo").textContent =
+        champion ? winner.logo : "🏆";
+
+      document.getElementById("heroWinner").textContent =
+        champion ? winner.name.toUpperCase() : "BELUM ADA JUARA";
+
+      document.getElementById("profileLogo").textContent =
+        winner ? winner.logo : "🏆";
+
+      document.getElementById("profileName").textContent =
+        winner ? winner.name : "Belum ada juara";
+
+      document.getElementById("profileSubtitle").textContent =
+        champion ? "JUARA eFootball League Season 1" : "Liga sedang berjalan";
+
+      document.getElementById("profileDescription").textContent =
+        champion
+          ? `${winner.name} menjadi juara berdasarkan klasemen final.`
+          : "Tim dengan poin tertinggi akan menempati posisi teratas klasemen.";
+
+      document.getElementById("finalLogo").textContent =
+        champion ? winner.logo : "🏆";
+
+      document.getElementById("finalWinner").textContent =
+        champion ? winner.name : "Belum ada juara";
+
+      document.getElementById("finalSubtitle").textContent =
+        champion ? "JUARA eFOOTBALL LEAGUE · SEASON 1" : "SEASON 1";
+
+      document.getElementById("finalDescription").textContent =
+        champion
+          ? `Selamat kepada ${winner.name} atas pencapaian juara liga.`
+          : "Liga belum diakhiri oleh admin.";
+
+      document.getElementById("statPoints").textContent = winner ? winner.points : 0;
+      document.getElementById("statWins").textContent = winner ? winner.wins : 0;
+      document.getElementById("statDraws").textContent = winner ? winner.draws : 0;
+      document.getElementById("statLosses").textContent = winner ? winner.losses : 0;
+      document.getElementById("statGF").textContent = winner ? winner.gf : 0;
+      document.getElementById("statGA").textContent = winner ? winner.ga : 0;
+      document.getElementById("statGD").textContent =
+        winner ? (winner.gd > 0 ? "+" : "") + winner.gd : 0;
+
+      document.getElementById("tableStatus").textContent =
+        league.finished ? "LIGA BERAKHIR" : "SEDANG BERJALAN";
+    }
+
+    function fixtureHTML(match) {
+      const home = teamById(match.homeId);
+      const away = teamById(match.awayId);
+
+      if (!home || !away) return "";
+
+      return `
+        <div class="fixture">
+          <div class="fixture-team">
+            ${escapeHTML(home.logo)} ${escapeHTML(home.name)}
+          </div>
+
+          <div>
+            <div class="fixture-score">
+              ${match.played
+                ? `${match.homeScore} - ${match.awayScore}`
+                : "VS"}
+            </div>
+
+            <div class="fixture-status">
+              ${match.played ? "FULL TIME" : `MATCHDAY ${match.matchday}`}
+            </div>
+          </div>
+
+          <div class="fixture-team">
+            ${escapeHTML(away.logo)} ${escapeHTML(away.name)}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFixtures() {
+      const upcoming = league.fixtures.filter(match => !match.played);
+      const results = league.fixtures.filter(match => match.played).reverse();
+
+      document.getElementById("fixtureList").innerHTML =
+        upcoming.length
+          ? upcoming.map(fixtureHTML).join("")
+          : `<div class="empty">Tidak ada jadwal tersisa.</div>`;
+
+      document.getElementById("resultList").innerHTML =
+        results.length
+          ? results.map(fixtureHTML).join("")
+          : `<div class="empty">Belum ada hasil pertandingan.</div>`;
+
+      document.getElementById("recentMatches").innerHTML =
+        results.length
+          ? results.slice(0, 3).map(fixtureHTML).join("")
+          : `<div class="empty">Hasil pertandingan akan tampil di sini.</div>`;
+
+      const select = document.getElementById("fixtureSelect");
+
+      select.innerHTML = `
+        <option value="">Pilih pertandingan</option>
+        ${upcoming.map(match => {
+          const home = teamById(match.homeId);
+          const away = teamById(match.awayId);
+
+          if (!home || !away) return "";
+
+          return `
+            <option value="${match.id}">
+              MD ${match.matchday} · ${escapeHTML(home.name)} vs ${escapeHTML(away.name)}
+            </option>
+          `;
+        }).join("")}
+      `;
+    }
+
+    function renderClubs() {
+      const target = document.getElementById("clubList");
+      const standings = getStandings();
+
+      target.innerHTML = league.teams.length
+        ? league.teams.map(team => {
+            const stats = standings.find(item => item.id === team.id);
+
+            return `
+              <div class="club-card">
+                <span class="club-emoji">${escapeHTML(team.logo)}</span>
+                <h3>${escapeHTML(team.name)}</h3>
+                <p>${stats ? stats.points : 0} Poin</p>
+              </div>
+            `;
+          }).join("")
+        : `<div class="empty">Belum ada klub yang terdaftar.</div>`;
+    }
+
+    function renderAll() {
+      renderTable("leagueTable", 10);
+      renderTable("fullLeagueTable");
+      renderTable("finalLeagueTable");
+      renderPodium();
+      renderChampion();
+      renderFixtures();
+      renderClubs();
+
+      document.getElementById("endLeagueButton").textContent =
+        league.finished ? "✓ Liga Telah Berakhir" : "🏆 Akhiri Liga →";
+
+      document.getElementById("adminEndLeague").textContent =
+        league.finished ? "✓ Liga Telah Berakhir" : "🏆 Akhiri Liga";
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.toggle("active-page", page.id === pageId);
+      });
+
+      document.querySelectorAll(".nav-btn").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === pageId);
+      });
+
+      document.getElementById("hero").classList.toggle("hidden", pageId !== "home");
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.querySelectorAll(".nav-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        showPage(button.dataset.page);
+      });
+    });
+
+    document.querySelectorAll("[data-go]").forEach(button => {
+      button.addEventListener("click", () => {
+        showPage(button.dataset.go);
+      });
+    });
+
+    document.getElementById("adminNav").addEventListener("click", () => {
+      showPage("admin");
+    });
+
+    document.getElementById("viewFinalTable").addEventListener("click", () => {
+      showPage("juara");
+    });
+
+    document.getElementById("addClubForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const message = document.getElementById("clubMessage");
+
+      if (league.finished) {
+        message.textContent = "Liga sudah berakhir. Reset liga untuk mengubah data.";
+        return;
+      }
+
+      const nameInput = document.getElementById("clubNameInput");
+      const logoInput = document.getElementById("clubLogoInput");
+      const name = nameInput.value.trim();
+
+      if (!name) return;
+
+      if (league.teams.some(team =>
+        team.name.toLowerCase() === name.toLowerCase()
+      )) {
+        message.textContent = "Nama klub sudah terdaftar.";
+        return;
+      }
+
+      if (league.fixtures.length) {
+        message.textContent =
+          "Reset jadwal terlebih dahulu sebelum menambah klub.";
+        return;
+      }
+
+      league.teams.push({
+        id: crypto.randomUUID(),
+        name,
+        logo: logoInput.value.trim() || "⚽"
+      });
+
+      saveData();
+      renderAll();
+
+      nameInput.value = "";
+      logoInput.value = "";
+
+      message.textContent = "Klub berhasil ditambahkan.";
+    });
+
+    document.getElementById("generateSchedule").addEventListener("click", () => {
+      const message = document.getElementById("scheduleMessage");
+
+      if (league.finished) {
+        message.textContent = "Liga sudah berakhir.";
+        return;
+      }
+
+      if (league.teams.length < 2) {
+        message.textContent = "Tambahkan minimal dua klub terlebih dahulu.";
+        return;
+      }
+
+      if (league.fixtures.length) {
+        message.textContent =
+          "Jadwal sudah dibuat. Reset liga untuk membuat ulang.";
+        return;
+      }
+
+      const teams = [...league.teams];
+
+      if (teams.length % 2 !== 0) {
+        teams.push(null);
+      }
+
+      const totalTeams = teams.length;
+      const rounds = totalTeams - 1;
+      const matchesPerRound = totalTeams / 2;
+      const fixtures = [];
+      let rotation = [...teams];
+
+      for (let round = 0; round < rounds; round++) {
+        for (let i = 0; i < matchesPerRound; i++) {
+          const home = rotation[i];
+          const away = rotation[totalTeams - 1 - i];
+
+          if (!home || !away) continue;
+
+          fixtures.push({
+            id: crypto.randomUUID(),
+            homeId: home.id,
+            awayId: away.id,
+            matchday: round + 1,
+            played: false,
+            homeScore: null,
+            awayScore: null
+          });
+        }
+
+        const fixed = rotation[0];
+        const rest = rotation.slice(1);
+
+        rest.unshift(rest.pop());
+        rotation = [fixed, ...rest];
+      }
+
+      league.fixtures = fixtures;
+
+      saveData();
+      renderAll();
+
+      message.textContent =
+        `${fixtures.length} pertandingan berhasil dibuat.`;
+    });
+
+    document.getElementById("resultForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const message = document.getElementById("resultMessage");
+
+      if (league.finished) {
+        message.textContent = "Liga sudah berakhir.";
+        return;
+      }
+
+      const match = league.fixtures.find(item =>
+        item.id === document.getElementById("fixtureSelect").value
+      );
+
+      const homeScore = Number(document.getElementById("homeScore").value);
+      const awayScore = Number(document.getElementById("awayScore").value);
+
+      if (!match) {
+        message.textContent = "Pilih pertandingan terlebih dahulu.";
+        return;
+      }
+
+      if (
+        !Number.isInteger(homeScore) ||
+        !Number.isInteger(awayScore) ||
+        homeScore < 0 ||
+        awayScore < 0
+      ) {
+        message.textContent = "Skor harus berupa bilangan bulat nol atau lebih.";
+        return;
+      }
+
+      match.homeScore = homeScore;
+      match.awayScore = awayScore;
+      match.played = true;
+
+      saveData();
+      renderAll();
+
+      document.getElementById("homeScore").value = "";
+      document.getElementById("awayScore").value = "";
+
+      message.textContent = "Hasil pertandingan berhasil disimpan.";
+    });
+
+    function endLeague() {
+      const message = document.getElementById("endLeagueMessage");
+
+      if (league.finished) {
+        message.textContent = "Liga sudah berakhir.";
+        return;
+      }
+
+      if (!league.teams.length) {
+        message.textContent = "Belum ada klub di liga.";
+        return;
+      }
+
+      const remaining = league.fixtures.filter(match => !match.played);
+
+      if (!league.fixtures.length || remaining.length) {
+        message.textContent =
+          "Selesaikan semua pertandingan sebelum mengakhiri liga.";
+
+        document.getElementById("adminMessage").textContent = message.textContent;
+        return;
+      }
+
+      if (!confirm(
+        "Akhiri liga sekarang? Klasemen akan ditetapkan sebagai klasemen final."
+      )) {
+        return;
+      }
+
+      league.finished = true;
+
+      saveData();
+      renderAll();
+
+      message.textContent = "Liga berakhir. Klasemen final telah ditetapkan.";
+
+      document.getElementById("adminMessage").textContent = message.textContent;
+    }
+
+    document.getElementById("endLeagueButton").addEventListener("click", endLeague);
+    document.getElementById("adminEndLeague").addEventListener("click", endLeague);
+
+    document.getElementById("resetLeague").addEventListener("click", () => {
+      if (!confirm(
+        "Semua klub, jadwal, dan hasil akan dihapus dari browser ini. Lanjutkan?"
+      )) {
+        return;
+      }
+
+      league = {
+        teams: [],
+        fixtures: [],
+        finished: false
+      };
+
+      saveData();
+      renderAll();
+
+      document.getElementById("adminMessage").textContent =
+        "Data liga berhasil direset.";
+    });
+
+    renderAll();
+  </script>
+
+</body>
+</html>
