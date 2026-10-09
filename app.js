@@ -1,4 +1,12 @@
 
+const SUPABASE_URL = "https://krhtqhjyzfaeqeytuzyp.supabase.co/rest/v1/";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_YBzD07cNtBLPuBrV2mJCTA_zg8zF_h9";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
 const STORAGE_KEY = "efootball_league_champion_v1";
 
 const defaultData = {
