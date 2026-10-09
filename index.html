@@ -166,7 +166,55 @@
                     <div class="panel admin-panel">
                         <div class="section-heading"><div><p class="eyebrow">AUTHORIZED ACCESS</p><h3>Kelola Liga</h3></div><button class="secondary-btn" onclick="logoutAdmin()">LOGOUT</button></div>
                         <p id="admin-identity" class="muted"></p>
-                    </div>
+                        
+<div class="panel admin-panel season-admin-panel">
+    <h3>🏆 Kelola Musim</h3>
+    <p class="muted">
+        Buat musim baru dan tentukan tim yang ikut bertanding.
+    </p>
+
+    <form id="season-form">
+        <label for="season-name">Nama musim</label>
+        <input
+            id="season-name"
+            type="text"
+            maxlength="80"
+            placeholder="Contoh: eFootball League Season 1"
+            required
+        >
+
+        <label for="season-teams">Pilih peserta musim</label>
+        <select id="season-teams" multiple required size="6"></select>
+        <small class="muted">
+            Pilih beberapa tim. Di HP, gunakan pilihan yang tersedia pada daftar.
+        </small>
+
+        <button class="primary-btn full-btn" type="submit">
+            BUAT MUSIM +
+        </button>
+    </form>
+
+    <p id="season-message" class="form-message" role="status"></p>
+
+    <div class="divider"></div>
+
+    <h3>Musim Saat Ini</h3>
+    <div id="admin-season-info" class="empty-state">
+        Memuat informasi musim...
+    </div>
+
+    <button
+        id="finalize-season-btn"
+        class="primary-btn full-btn"
+        type="button"
+        onclick="finalizeCurrentSeason()"
+        disabled
+    >
+        SAHKAN JUARA 🏆
+    </button>
+
+    <p id="finalize-message" class="form-message" role="status"></p>
+</div>
 
                     <div class="admin-grid">
                         <div class="panel admin-panel">
