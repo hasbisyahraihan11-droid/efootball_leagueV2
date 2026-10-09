@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b12">
+    <title>eFootball League</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#" onclick="showPage('home'); return false;">
+                <span class="brand-icon">⚽</span>
+                <span>EF<span class="accent">LEAGUE</span><small>FOOTBALL COMPETITION</small></span>
+            </a>
+
+            <p class="nav-label">MENU UTAMA</p>
+            <nav>
+                <button class="nav-btn active" data-page="home" onclick="showPage('home')">⌂ <span>Home</span></button>
+                <button class="nav-btn" data-page="ranking" onclick="showPage('ranking')">▤ <span>Ranking</span></button>
+                <button class="nav-btn" data-page="teams" onclick="showPage('teams')">♟ <span>Tim</span></button>
+                <button class="nav-btn" data-page="fixtures" onclick="showPage('fixtures')">▦ <span>Jadwal</span></button>
+                <button class="nav-btn" data-page="admin" onclick="showPage('admin')">⚙ <span>Admin</span></button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <span class="live-dot"></span>
+                <span>LEAGUE SYSTEM</span>
+                <small>ONLINE</small>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">COMPETITION CENTER</p>
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+                <div class="top-status"><span class="live-dot"></span> SEASON ACTIVE</div>
+            </header>
+
+            <div id="notice" class="notice" hidden></div>
+
+            <section id="page-home" class="page active">
+                <div class="hero">
+                    <div class="hero-content">
+                        <span class="pill">⚡ THE NEW SEASON</span>
+                        <h2>THIS IS<br><span>YOUR LEAGUE.</span></h2>
+                        <p>Kompetisi dimulai di sini. Pantau klasemen, jadwal, dan hasil pertandingan liga lu.</p>
+                        <button class="primary-btn" onclick="showPage('fixtures')">LIHAT JADWAL ↗</button>
+                    </div>
+                    <div class="hero-ball">⚽</div>
+                    <div class="hero-number">01</div>
+                </div>
+
+                <div class="stats-grid">
+                    <article class="stat-card"><span>TOTAL TIM</span><strong id="stat-teams">0</strong><small>REGISTERED CLUBS</small></article>
+                    <article class="stat-card"><span>TOTAL LAGA</span><strong id="stat-matches">0</strong><small>COMPLETED MATCHES</small></article>
+                    <article class="stat-card"><span>JADWAL TERSISA</span><strong id="stat-upcoming">0</strong><small>UPCOMING FIXTURES</small></article>
+                </div>
+
+                <div class="content-grid">
+                    <article class="panel featured-panel">
+                        <div class="section-heading"><div><p class="eyebrow">NEXT MATCH</p><h3>Pertandingan Berikutnya</h3></div><span class="pill">UPCOMING</span></div>
+                        <div id="featured-fixture" class="empty-state">Memuat pertandingan...</div>
+                    </article>
+                    <article class="panel">
+                        <div class="section-heading"><div><p class="eyebrow">LATEST RESULTS</p><h3>Hasil Terbaru</h3></div></div>
+                        <div id="latest-results" class="empty-state">Belum ada hasil pertandingan.</div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="page-ranking" class="page">
+                <div class="page-intro"><p class="eyebrow">SEASON STATISTICS</p><h2>Klasemen Liga</h2><p>Peringkat dihitung berdasarkan hasil pertandingan yang tersimpan.</p></div>
+                <div class="panel table-panel">
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>#</th><th>KLUB</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th><th>FORM</th></tr></thead>
+                            <tbody id="ranking-body"><tr><td colspan="11" class="empty-state">Memuat klasemen...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="page-teams" class="page">
+                <div class="page-intro"><p class="eyebrow">CLUB DIRECTORY</p><h2>Daftar Tim</h2><p>Semua klub yang terdaftar di kompetisi.</p></div>
+                <div id="teams-grid" class="teams-grid"><div class="empty-state">Memuat daftar tim...</div></div>
+            </section>
+
+            <section id="page-fixtures" class="page">
+                <div class="page-intro"><p class="eyebrow">MATCH CENTER</p><h2>Jadwal Pertandingan</h2><p>Pantau laga mendatang dan hasil yang sudah selesai.</p></div>
+                <div id="fixtures-list" class="fixtures-list"><div class="empty-state">Memuat jadwal...</div></div>
+            </section>
+
+            <section id="page-admin" class="page">
+                <div class="page-intro"><p class="eyebrow">CONTROL ROOM</p><h2>Admin Panel</h2><p>Masuk dengan akun admin untuk mengelola liga.</p></div>
+
+                <div id="admin-login" class="panel admin-panel">
+                    <h3>Admin Login</h3>
+                    <p class="muted">Gunakan email dan password akun Supabase yang sudah didaftarkan sebagai admin.</p>
+                    <form id="login-form">
+                        <label for="admin-email">Email</label>
+                        <input id="admin-email" type="email" autocomplete="username" placeholder="admin@email.com" required>
+                        <label for="admin-password">Password</label>
+                        <input id="admin-password" type="password" autocomplete="current-password" placeholder="Password admin" required>
+                        <button class="primary-btn full-btn" type="submit">LOGIN ADMIN →</button>
+                    </form>
+                    <p id="login-message" class="form-message" role="status"></p>
+                </div>
+
+                <div id="admin-dashboard" hidden>
+                    <div class="panel admin-panel">
+                        <div class="section-heading"><div><p class="eyebrow">AUTHORIZED ACCESS</p><h3>Kelola Liga</h3></div><button class="secondary-btn" onclick="logoutAdmin()">LOGOUT</button></div>
+                        <p id="admin-identity" class="muted"></p>
+                    </div>
+
+                    <div class="admin-grid">
+                        <div class="panel admin-panel">
+                            <h3>Tambah Tim</h3>
+                            <form id="team-form">
+                                <label for="team-name">Nama tim</label>
+                                <input id="team-name" maxlength="60" placeholder="Contoh: Real Madrid" required>
+                                <label for="team-logo">URL logo (opsional)</label>
+                                <input id="team-logo" type="url" placeholder="https://...">
+                                <button class="primary-btn full-btn" type="submit">TAMBAH TIM +</button>
+                            </form>
+                        </div>
+
+                        <div class="panel admin-panel">
+                            <h3>Buat Jadwal Otomatis</h3>
+                            <p class="muted">Sistem membuat jadwal round-robin. Setiap tim bertemu satu kali.</p>
+                            <button id="generate-fixtures-btn" class="primary-btn full-btn" onclick="generateFixtures()">GENERATE FIXTURES ↗</button>
+                            <p id="schedule-message" class="form-message" role="status"></p>
+                        </div>
+                    </div>
+
+                    <div class="panel admin-panel">
+                        <h3>Input Hasil Pertandingan</h3>
+                        <form id="result-form">
+                            <label for="result-fixture">Pilih pertandingan</label>
+                            <select id="result-fixture" required><option value="">Pilih jadwal...</option></select>
+                            <div class="score-inputs">
+                                <div><label for="home-score">Skor kandang</label><input id="home-score" type="number" min="0" step="1" required></div>
+                                <span>VS</span>
+                                <div><label for="away-score">Skor tandang</label><input id="away-score" type="number" min="0" step="1" required></div>
+                            </div>
+                            <button class="primary-btn full-btn" type="submit">SIMPAN HASIL ✓</button>
+                        </form>
+                        <p id="result-message" class="form-message" role="status"></p>
+                    </div>
+                </div>
+            </section>
+
+            <footer><span>EFLEAGUE © 2026</span><span>BUILT FOR COMPETITION <span class="accent">●</span></span></footer>
+        </main>
+    </div>
+</body>
+</html>
